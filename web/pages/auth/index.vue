@@ -1,0 +1,33 @@
+<template>
+  <div />
+</template>
+
+<script>
+// eslint-disable-next-line camelcase
+import { jwtDecode } from "jwt-decode";
+
+export default {
+  created () {
+    var token = this.$auth.$storage.getUniversal('_token.aad')
+    
+    const decodedBearer = jwtDecode(token)
+
+    this.$auth.$storage.setUniversal('jwt_decoded', decodedBearer)
+
+var userdata  = this.$auth.$storage.getUniversal('jwt_decoded')
+    // this.$axios.post('/postNewUser', { data: userdata }  )
+    // .then(function (response) {
+    //     console.log(response);
+    // })
+    // .catch(function (error) {
+    //     console.log(error);
+    // });
+
+    // console.log(this.$auth.$storage.getUniversal('redirect'))
+    const path = this.$auth.$storage.getUniversal('redirect') || '/';
+    this.$auth.$storage.setUniversal('redirect', null);
+    this.$router.push(path);
+
+  }
+}
+</script>

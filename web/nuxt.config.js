@@ -32,6 +32,7 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -42,4 +43,65 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  // Global CSS: https://go.nuxtjs.dev/config-css
+  css: ['~/node_modules/bootstrap/dist/css/bootstrap.min.css'],
+
+  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
+  plugins: [{ src: "~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js", mode: "client",  }],
+
+  buildModules: ['@nuxtjs/google-fonts'],
+
+  googleFonts: {
+    families: {
+      'Source+Code+Pro': true,
+      'Material+Symbols+Outlined': true
+    }
+  },
+
+  auth: {
+    redirect: {
+      callback: '/auth',
+    },
+    rewriteRedirects : true,
+    strategies: {
+      aad: {
+        scheme: 'oauth2',
+        endpoints: {
+          authorization:
+            'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
+          token:
+            'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
+          logout: false,
+          // get the user details from the /me endpoint
+          userInfo: '/getUser',
+        },
+        token: {
+          property: 'access_token',
+          type: 'Bearer',
+          maxAge: 1800,
+          global: true,
+          required: true,
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          data: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30,
+        },
+        responseType: 'code',
+        grantType: 'authorization_code',
+        accessType: 'offline',
+        // ******** change this for your Application (Client) ID ********
+        clientId: '40230a9a-c8e0-4306-95e4-3e65b92939a9',
+        codeChallengeMethod: 'S256',
+        scope: ['openid', 'profile'],
+        autoLogout: true,
+      },
+    },
+  },
+
+  server: {
+    port: 65521 // default: 3000
+  }
+
 }
