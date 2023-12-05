@@ -1,5 +1,5 @@
 packages:
   - name: lovelace-hackathon
     actions:
-      - name: lovelace-hackathon-functions 
+      - name: lovelace-functions 
         runtime: nodejs:default
