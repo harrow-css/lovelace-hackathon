@@ -53,6 +53,17 @@ body {
     background-color: #6320EE;
     border-color: #6320EE;
 }
+
+.btn-primary:focus {
+    background-color: #56339B !important;
+    border-color: #56339B;
+}
+
+.btn-primary:active {
+    background-color: #56339B !important;
+    border-color: #56339B;
+}
+
 </style>
 
 

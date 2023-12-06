@@ -4,7 +4,7 @@
       <div class="col-md-6">
         <div class="h-100 p-5 cardcolour1 rounded-3">
           <h2>START</h2>
-          <h1 class="fs-1" style="color:#60AAF4">12:00GMT</h1>
+          <h1 class="fs-1" style="color:#B8DDB8">12:00GMT</h1>
           <h3 style="color:#B8DDB8">Friday 23rd February 2024</h3>
         </div>
       </div>
@@ -12,7 +12,7 @@
         <div class="h-100 p-5 cardcolour1 rounded-3">
           <h2>FINISH</h2>
           <h1 class="fs-1" style="color:#60AAF4">12:00GMT</h1>
-          <h3 style="color:#B8DDB8">Friday 24th February 2024</h3>
+          <h3 style="color:#60AAF4">Friday 24th February 2024</h3>
         </div>
       </div>
   </div>
