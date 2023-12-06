@@ -72,9 +72,8 @@ export default {
             'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
           token:
             'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
-          logout: false,
-          // get the user details from the /me endpoint
-          userInfo: '/getUser',
+          logout: false
+      
         },
         token: {
           property: 'access_token',
