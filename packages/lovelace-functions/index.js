@@ -1,5 +1,5 @@
-// exports.main = () => {
-//   return {
-//     statusCode: 200
-//   }
-// }
+exports.main = () => {
+  return {
+    statusCode: 200
+  }
+}
