@@ -1,5 +1,10 @@
 {
   "dependencies": {
     "jsonwebtoken": "^9.0.2"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "6.x"
   }
+
 }
