@@ -5,7 +5,7 @@
         <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
             <!-- <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg> -->
             <img src="~/assets/lightpunchcard.svg" alt="logo" width="72" height="72">
-            <span class="fs-2 pagetitle">Lovelace <br>Hackathon <span style="color: #B8DDB8;">'23</span></span>
+            <span class="fs-2 pagetitle">Lovelace <br>Hackathon <span style="color: #B8DDB8;">'24</span></span>
         </a>
 
         

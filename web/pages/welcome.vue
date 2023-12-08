@@ -15,6 +15,7 @@
               <h3>
                 You're representing <i>{{ userdata.upn.split('@').pop().split('.')[0] }}</i> in team 
               </h3>
+
             </div>
             <div class="col-lg-1">
               <a

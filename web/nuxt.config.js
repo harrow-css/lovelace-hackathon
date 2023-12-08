@@ -32,7 +32,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/strapi'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -57,6 +58,12 @@ export default {
       'Source+Code+Pro': true,
       'Material+Symbols+Outlined': true
     }
+  },
+
+  strapi: {
+    entities: ['questionbanks', 'Hackathoncontestants'],
+    url: 'https://admin.lovelacehackathon.com',
+    key : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzA0NjQ1OTZjNzAzMDAxMTg2M2NlYiIsImlhdCI6MTcwMTg1Njk0NCwiZXhwIjoxNzA0NDQ4OTQ0fQ.v95hvOBJ65hv_XorXNHUJUBkNPoGhH0q4CtpRUoRXhY'
   },
 
   auth: {
