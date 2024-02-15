@@ -1,19 +1,5 @@
-parameters: {}
-environment: {}
 packages:
-    - name: sample
-      shared: false
-      environment: {}
-      parameters: {}
-      annotations: {}
-      functions:
-        - name: hello
-          binary: false
-          main: ""
-          runtime: nodejs:default
-          web: true
-          webSecure: false
-          parameters: {}
-          environment: {}
-          annotations: {}
-          limits: {}
+  - name: sample
+    functions:
+      - name: hello 
+        runtime: nodejs:default
