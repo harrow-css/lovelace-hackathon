@@ -6,7 +6,7 @@
 
      <a class="signinbutton" @click="$auth.logout(); $auth.loginWith('aad')"><img class="mb-5 mx-auto d-block" src="~/assets/microsoftsignindark.svg" alt="Sign in with Microsoft"></a>
 
-    <p class="my-2 text-center">Please sign in with your HarrowSchool.org.uk account. <br> (work or school account)</p>
+    <p class="my-2 text-center">Please sign in with your school account. <br> Your name wasn't on our list</p>
 
   </div>
 </div>

@@ -1,4 +1,4 @@
-export default function({ store, redirect , route}) {
+export default async function({ store, redirect , route}) {
     if (!store.state.auth.loggedIn) {
 
       store.$auth.$storage.setUniversal('redirect', route.path);
@@ -6,16 +6,26 @@ export default function({ store, redirect , route}) {
 
     } else {
       const email = (store.$auth.$storage.getUniversal('jwt_decoded').upn)
-      const domain = email.split('@').pop()
 
-      const allowedDomains = ['harrowschool.org.uk', 'oxcoll.com']
+      // include axios
+      const axios = require('axios')
 
-      // if the domain is in the list of allowed domains, then allow the user to continue
-        if (allowedDomains.includes(domain)) {
-            return
-        } else {
-            return redirect("/auth/notapproved");
+      // send a request with the user's email to the server to check if the user is allowed to access the application
+      // use axios
+      var response = await axios.get('/api/checkLogin', {
+        params: {
+          email: email
         }
+      })
+      
+      if (response.data.allowed == true) {
+        return
+      }
+      else if (response.data.allowed == false){
+        return redirect("/auth/notapproved");
+      } else {
+        return redirect("/auth/logon");
+      }
+
     }
-    
   }
