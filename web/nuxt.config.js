@@ -64,6 +64,10 @@ export default {
     url: 'https://admin.lovelacehackathon.com',
     key : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzA0NjQ1OTZjNzAzMDAxMTg2M2NlYiIsImlhdCI6MTcwMTg1Njk0NCwiZXhwIjoxNzA0NDQ4OTQ0fQ.v95hvOBJ65hv_XorXNHUJUBkNPoGhH0q4CtpRUoRXhY'
   },
+  
+  serverMiddleware: [
+    { path: '/api', handler: '~/api/index.js' },
+  ],
 
   auth: {
     redirect: {
