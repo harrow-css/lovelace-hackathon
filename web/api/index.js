@@ -143,7 +143,7 @@ app.post('/setParticipationLevel', async (req, res) => {
 
 });
 
-app.get('/getQuestionInfo', async (req, res) => {
+app.get('/getQuestionsInfo', async (req, res) => {
    // get authorization  header
    const token = req.headers.authorization
 
@@ -199,6 +199,22 @@ app.get('/getQuestionInfo', async (req, res) => {
   var green = questions.filter(question => question.Difficulty == "Green")
 
   res.send({red: red, yellow: yellow, green: green});
+});
+
+app.get('/getQuestionInfo', async (req, res) => {
+  var questionId = req.query.questionID
+
+  var questionInfo = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
+    params: {
+      'q': "SELECT QuestionDescription, QuestionAuthor, Difficulty, QuestionTitle FROM Questions WHERE id = "+questionId
+    },
+    headers: {
+      'accept': 'application/json',
+      'Authorization': 'Bearer '+ process.env.GRIST_API,
+    }
+  })
+
+  res.send(questionInfo.data.records[0].fields);
 });
 
 // Needed for nuxt.js

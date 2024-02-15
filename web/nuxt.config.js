@@ -32,7 +32,8 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/markdownit'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -111,6 +112,10 @@ export default {
 
   server: {
     port: 65521 // default: 3000
+  },
+
+  markdownit: {
+    runtime: true // Support `$md()`
   }
 
 }

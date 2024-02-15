@@ -4,7 +4,7 @@
       <div class="col-md-12 mb-4">
         <div class="h-100 p-5 cardcolour1 rounded-3 shadow d-flex flex-column">
           <div class="row align-items-start">
-            <div class="col-lg-11">
+            <div class="col-lg-9">
               <h1>
                 Hey,
                 <i>{{ userdata.given_name }} {{ userdata.family_name }}</i>
@@ -14,9 +14,9 @@
                 <i>{{ userdata.upn.split('@').pop().split('.')[0] }}</i>
               </h5>
             </div>
-            <div class="col-lg-1">
+            <div class="col-lg-3">
               <a
-                class="btn btn-outline-light"
+                class="btn btn-outline-danger float-end"
                 type="button"
                 @click="$auth.logout()"
                 >Logout</a
@@ -210,6 +210,7 @@
               <div class="row">
                 <div class="col-4 text-center">
                   <div v-for="question in questiondata.red">
+                  <NuxtLink :to="'/problems/' +  question.id "  class="NuxtLink">
                     <span
                       v-if="question.solved"
                       style="text-decoration: line-through"
@@ -218,10 +219,12 @@
                     <span v-if="!question.solved"
                       >({{ question.id }}) {{ question.Questiontitle }}</span
                     >
+                  </NuxtLink>
                   </div>
                 </div>
                 <div class="col-4 text-center">
                   <div v-for="question in questiondata.yellow">
+                    <NuxtLink  :to="'/problems/' +  question.id "  class="NuxtLink" >
                     <span
                       v-if="question.solved"
                       style="text-decoration: line-through"
@@ -230,10 +233,12 @@
                     <span v-if="!question.solved"
                       >({{ question.id }}) {{ question.Questiontitle }}</span
                     >
+                    </NuxtLink>
                   </div>
                 </div>
                 <div class="col-4 text-center">
-                  <div v-for="question in questiondata.green">
+                  <div v-for="question in questiondata.green" >
+                  <NuxtLink :to="'/problems/' +  question.id " class="NuxtLink">
                     <span
                       v-if="question.solved"
                       style="text-decoration: line-through"
@@ -242,6 +247,7 @@
                     <span v-if="!question.solved"
                       >({{ question.id }}) {{ question.Questiontitle }}</span
                     >
+                    </NuxtLink>
                   </div>
                 </div>
               </div>
@@ -259,7 +265,7 @@ export default {
 
   async asyncData(context) {
     var teamdata = await context.app.$axios.$get('/api/getTeamInfo')
-    var questiondata = await context.app.$axios.$get('/api/getQuestionInfo')
+    var questiondata = await context.app.$axios.$get('/api/getQuestionsInfo')
 
     return {
       userdata: context.app.$auth.$storage.getUniversal('jwt_decoded'),
@@ -282,6 +288,14 @@ export default {
 </script>
 
 <style>
+.NuxtLink {
+  text-decoration: none;
+}
+.NuxtLink:hover {
+  text-decoration: underline;
+  /* set underline to white */
+  color: white;
+}
 .flash {
   animation: flashinganimation 1s step-start infinite;
 }
