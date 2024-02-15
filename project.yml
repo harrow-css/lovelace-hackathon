@@ -1,5 +1,5 @@
 packages:
-  - name: sample
+  - name: runner
     functions:
       - name: hello 
         runtime: nodejs:default
