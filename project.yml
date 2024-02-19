@@ -1,7 +1,7 @@
 packages:
   - name: runner
     functions:
-      - name: hello 
+      - name: hello
         runtime: nodejs:default
-      - name: python 
+      - name: python
         runtime: python:default
