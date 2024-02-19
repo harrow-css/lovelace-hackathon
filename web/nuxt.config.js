@@ -11,7 +11,17 @@ export default {
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      { type:"text/javascript", src:"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js"},
+      { type:"text/javascript", src:"https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"}
+    ],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.css',
+      },
+    ],
   },
   target: 'server',
   ssr: false,
@@ -33,7 +43,7 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
-    '@nuxtjs/markdownit'
+    '@nuxtjs/markdownit',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -49,32 +59,35 @@ export default {
   css: ['~/node_modules/bootstrap/dist/css/bootstrap.min.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js", mode: "client",  }],
+  plugins: [
+    {
+      src: '~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+      mode: 'client',
+    },
+  ],
 
   buildModules: ['@nuxtjs/google-fonts'],
 
   googleFonts: {
     families: {
       'Source+Code+Pro': true,
-      'Material+Symbols+Outlined': true
-    }
+      'Material+Symbols+Outlined': true,
+    },
   },
 
   strapi: {
     entities: ['questionbanks', 'Hackathoncontestants'],
     url: 'https://admin.lovelacehackathon.com',
-    key : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzA0NjQ1OTZjNzAzMDAxMTg2M2NlYiIsImlhdCI6MTcwMTg1Njk0NCwiZXhwIjoxNzA0NDQ4OTQ0fQ.v95hvOBJ65hv_XorXNHUJUBkNPoGhH0q4CtpRUoRXhY'
+    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzA0NjQ1OTZjNzAzMDAxMTg2M2NlYiIsImlhdCI6MTcwMTg1Njk0NCwiZXhwIjoxNzA0NDQ4OTQ0fQ.v95hvOBJ65hv_XorXNHUJUBkNPoGhH0q4CtpRUoRXhY',
   },
-  
-  serverMiddleware: [
-    { path: '/api', handler: '~/api/index.js' },
-  ],
+
+  serverMiddleware: [{ path: '/api', handler: '~/api/index.js' }],
 
   auth: {
     redirect: {
       callback: '/auth',
     },
-    rewriteRedirects : true,
+    rewriteRedirects: true,
     strategies: {
       aad: {
         scheme: 'oauth2',
@@ -83,8 +96,7 @@ export default {
             'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
           token:
             'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
-          logout: false
-      
+          logout: false,
         },
         token: {
           property: 'access_token',
@@ -111,11 +123,10 @@ export default {
   },
 
   server: {
-    port: 65521 // default: 3000
+    port: 65521, // default: 3000
   },
 
   markdownit: {
-    runtime: true // Support `$md()`
-  }
-
+    runtime: true, // Support `$md()`
+  },
 }
