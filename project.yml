@@ -3,3 +3,5 @@ packages:
     functions:
       - name: hello 
         runtime: nodejs:default
+      - name: python 
+        runtime: python:default
