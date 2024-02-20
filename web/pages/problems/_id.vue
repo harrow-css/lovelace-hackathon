@@ -42,9 +42,9 @@
       </div>
     </div>
 
-    <div class="row align-items-md-stretch mb-4">
+    <div class="row mb-4">
       <div class="col-md-12 mb-4">
-        <div class="h-100 p-5 cardcolour1 rounded-3 shadow d-flex flex-column">
+        <div class="h-100 p-5 cardcolour1 rounded-3 shadow ">
           <div class="row align-items-start">
             <div class="row">
               <div class="col">
@@ -52,24 +52,39 @@
               </div>
               <div class="col">
                 <select class="form-select" aria-label="Default select example"  v-model="languagePicker">
-                  <option style="color: black;" selected value="Python">Python 3.12.0</option>
-                  <option style="color: black;" value="Node.js" >Node.js 18.15.0</option>
-                  <option style="color: black;" value="c++" >c++ 10.2.0</option>
+                  <option style="color: black;" selected value="Python" >Python 3.12.0</option>
+                  <option style="color: gray;" value="Node.js" disabled>Node.js 18.15.0</option>
+                  <option style="color: gray;" value="c++" disabled>c++ 10.2.0</option>
                 </select>
               </div>
             </div>
 
             <div id="solutionBox" style="color: black"></div>
 
-            <div class="d-grid gap-2 d-md-block float-end pt-5">
+            <div class="d-grid gap-2 d-md-block py-3">
               <button
                 class="btn btn-primary"
                 type="button"
-                @click="submitSolution()"
+                @click="runCode()"
+              >
+                Run
+              </button>
+              <button
+                class="btn btn-warning"
+                type="button"
+                @click="autoMark()"
               >
                 Submit
               </button>
             </div>
+
+            <div style="color: white; height: 300px; background-color: #737373; overflow-y: scroll;" >
+              <div v-if="codeResponses">
+                <span v-for="codeResponse in codeResponses" > <span v-html="codeResponse.run.output"></span><br></span> 
+
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -167,7 +182,7 @@ export default {
     this.myCodeMirror = CodeMirror(document.querySelector('#solutionBox'), {
       lineNumbers: true,
       tabSize: 2,
-      value: 'console.log("Hello, World");',
+      value: 'def solution():\n    return "Hello World"',
       theme: 'bespin',
       mode: "python"
     })
@@ -175,20 +190,38 @@ export default {
   data() {
     return {
       myCodeMirror: null,
-      languagePicker: "Python"
+      languagePicker: "Python",
+      codeResponses : []
     }
   },
 
   methods: {
-    submitSolution() {
+    runCode() {
       this.$axios
-        .$post('/api/submitSolution', {
+        .$post('/api/runCode', {
           questionID: this.$route.params.id,
           solution: this.myCodeMirror.getValue(),
           language: this.languagePicker,
         })
         .then((response) => {
-          console.log(response)
+          // add the response to the codeResponses array
+          this.codeResponses.push(response)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+
+    autoMark() {
+      this.$axios
+        .$post('/api/autoMark', {
+          questionID: this.$route.params.id,
+          solution: this.myCodeMirror.getValue(),
+          language: this.languagePicker,
+        })
+        .then((response) => {
+          // add the response to the codeResponses array
+          this.questionData.solved = true
         })
         .catch((error) => {
           console.log(error)

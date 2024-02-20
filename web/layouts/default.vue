@@ -64,6 +64,27 @@ body {
     border-color: #56339B;
 }
 
+.btn-warning {
+    background-color: #B8DDB8;
+    border-color: #98d498;
+    color:white;
+}
+
+.btn-warning:hover {
+    background-color: #98d498;
+    border-color: #98d498;
+}
+
+.btn-warning:focus {
+    background-color: #72a872 !important;
+    border-color: #72a872;
+}
+
+.btn-warning:active {
+    background-color: #72a872 !important;
+    border-color: #72a872;
+}
+
 </style>
 
 
