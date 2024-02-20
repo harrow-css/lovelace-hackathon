@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <div class="row mb-4">
+    <div class="row mb-4" v-show="!this.questionData.solved">
       <div class="col-md-12 mb-4">
         <div class="h-100 p-5 cardcolour1 rounded-3 shadow ">
           <div class="row align-items-start">
@@ -59,13 +59,14 @@
               </div>
             </div>
 
-            <div id="solutionBox" style="color: black"></div>
+            <div id="solutionBox" :disabled = "this.questionData.solved" style="color: black"></div>
 
             <div class="d-grid gap-2 d-md-block py-3">
               <button
                 class="btn btn-primary"
                 type="button"
                 @click="runCode()"
+                :disabled = "this.questionData.solved"
               >
                 Run
               </button>
@@ -73,15 +74,18 @@
                 class="btn btn-warning"
                 type="button"
                 @click="autoMark()"
+                :disabled = "this.questionData.solved"
               >
                 Submit
               </button>
+
+
             </div>
 
             <div style="color: white; height: 300px; background-color: #737373; overflow-y: scroll;" >
               <div v-if="codeResponses">
                 <span v-for="codeResponse in codeResponses" > <span v-html="codeResponse.run.output"></span><br></span> 
-
+                   
               </div>
             </div>
 
@@ -89,6 +93,16 @@
         </div>
       </div>
     </div>
+
+    <div class="row mb-4" v-show="this.questionData.solved">
+      <div class="col-md-12 mb-4">
+        <div class="h-100 p-5 cardcolour1 rounded-3 shadow ">
+          <h3>Your team solved the problem!</h3>
+        </div>
+      </div>
+    </div>
+
+
   </div>
 </template>
 
@@ -189,6 +203,10 @@ export default {
   },
   data() {
     return {
+      spinners: {
+        'run':false,
+        'submit':false
+      },
       myCodeMirror: null,
       languagePicker: "Python",
       codeResponses : []
@@ -196,6 +214,13 @@ export default {
   },
 
   methods: {
+    confettiRun() {
+      this.$confetti.start();
+      // stop the confetti after 5 seconds
+      setTimeout(() => {
+        this.$confetti.stop();
+      }, 5000);
+    },
     runCode() {
       this.$axios
         .$post('/api/runCode', {
@@ -221,7 +246,13 @@ export default {
         })
         .then((response) => {
           // add the response to the codeResponses array
-          this.questionData.solved = true
+          this.questionData.solved = response.correct
+
+          // if the response.correct is true, run the confetti
+          if (response.correct) {
+            this.confettiRun()
+          }
+          
         })
         .catch((error) => {
           console.log(error)

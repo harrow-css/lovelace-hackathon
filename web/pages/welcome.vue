@@ -92,13 +92,13 @@
 +----------------------------+
 | Points Summary             |
 +========================+===+
-| Red Problems Solved    |   |
+| Red Problems Solved    |{{ paddedpointsSummary.red }}|
 +------------------------+---+
-| Yellow Problems Solved |   |
+| Yellow Problems Solved |{{ paddedpointsSummary.yellow }}|
 +------------------------+---+
-| Green Problems Solved  |   |
+| Green Problems Solved  |{{ paddedpointsSummary.green }}|
 +------------------------+---+
-| Total Problems Solved  |   |
+| Total Problems Solved  |{{ paddedpointsSummary.total }}|
 +------------------------+---+</pre
                   >
                 </div>
@@ -106,6 +106,20 @@
                 <div class="col-7">
                   <u>Solved Problems</u>
                   <br />
+
+                  <div v-for="problem in solvedProblems">
+                    <span v-if="problem.level == 'red'" style="color: red"
+                      >({{ problem.id }}) </span
+                    >
+                    <span v-if="problem.level == 'yellow'" style="color: yellow"
+                      >({{ problem.id }})</span
+                    >
+                    <span v-if="problem.level == 'green'" style="color: #00ff00"
+                      >({{ problem.id }})</span
+                    >
+                    {{ problem.title }}
+                    <br />
+                  </div>
                 </div>
               </div>
             </OldTerminal>
@@ -210,43 +224,43 @@
               <div class="row">
                 <div class="col-4 text-center">
                   <div v-for="question in questiondata.red">
-                  <NuxtLink :to="'/problems/' +  question.id "  class="NuxtLink">
-                    <span
-                      v-if="question.solved"
-                      style="text-decoration: line-through"
-                      >({{ question.id }}) {{ question.Questiontitle }}</span
-                    >
-                    <span v-if="!question.solved"
-                      >({{ question.id }}) {{ question.Questiontitle }}</span
-                    >
-                  </NuxtLink>
-                  </div>
-                </div>
-                <div class="col-4 text-center">
-                  <div v-for="question in questiondata.yellow">
-                    <NuxtLink  :to="'/problems/' +  question.id "  class="NuxtLink" >
-                    <span
-                      v-if="question.solved"
-                      style="text-decoration: line-through"
-                      >({{ question.id }}) {{ question.Questiontitle }}</span
-                    >
-                    <span v-if="!question.solved"
-                      >({{ question.id }}) {{ question.Questiontitle }}</span
-                    >
+                    <NuxtLink :to="'/problems/' + question.id" class="NuxtLink">
+                      <span
+                        v-if="question.solved"
+                        style="text-decoration: line-through"
+                        >({{ question.id }}) {{ question.Questiontitle }}</span
+                      >
+                      <span v-if="!question.solved"
+                        >({{ question.id }}) {{ question.Questiontitle }}</span
+                      >
                     </NuxtLink>
                   </div>
                 </div>
                 <div class="col-4 text-center">
-                  <div v-for="question in questiondata.green" >
-                  <NuxtLink :to="'/problems/' +  question.id " class="NuxtLink">
-                    <span
-                      v-if="question.solved"
-                      style="text-decoration: line-through"
-                      >({{ question.id }}) {{ question.Questiontitle }}</span
-                    >
-                    <span v-if="!question.solved"
-                      >({{ question.id }}) {{ question.Questiontitle }}</span
-                    >
+                  <div v-for="question in questiondata.yellow">
+                    <NuxtLink :to="'/problems/' + question.id" class="NuxtLink">
+                      <span
+                        v-if="question.solved"
+                        style="text-decoration: line-through"
+                        >({{ question.id }}) {{ question.Questiontitle }}</span
+                      >
+                      <span v-if="!question.solved"
+                        >({{ question.id }}) {{ question.Questiontitle }}</span
+                      >
+                    </NuxtLink>
+                  </div>
+                </div>
+                <div class="col-4 text-center">
+                  <div v-for="question in questiondata.green">
+                    <NuxtLink :to="'/problems/' + question.id" class="NuxtLink">
+                      <span
+                        v-if="question.solved"
+                        style="text-decoration: line-through"
+                        >({{ question.id }}) {{ question.Questiontitle }}</span
+                      >
+                      <span v-if="!question.solved"
+                        >({{ question.id }}) {{ question.Questiontitle }}</span
+                      >
                     </NuxtLink>
                   </div>
                 </div>
@@ -267,10 +281,81 @@ export default {
     var teamdata = await context.app.$axios.$get('/api/getTeamInfo')
     var questiondata = await context.app.$axios.$get('/api/getQuestionsInfo')
 
+    var pointsSummary = {
+      red: 0,
+      yellow: 0,
+      green: 0,
+      total: 0,
+    }
+
+    // calculate the points summary
+    for (var i = 0; i < questiondata.red.length; i++) {
+      if (questiondata.red[i].solved) {
+        pointsSummary.red++
+        pointsSummary.total++
+      }
+    }
+    for (var i = 0; i < questiondata.yellow.length; i++) {
+      if (questiondata.yellow[i].solved) {
+        pointsSummary.yellow++
+        pointsSummary.total++
+      }
+    }
+    for (var i = 0; i < questiondata.green.length; i++) {
+      if (questiondata.green[i].solved) {
+        pointsSummary.green++
+        pointsSummary.total++
+      }
+    }
+
+    // create paddedpointsSummary, which makes each value a string of length 3
+    var paddedpointsSummary = {
+      red: pointsSummary.red.toString().padStart(3, '0'),
+      yellow: pointsSummary.yellow.toString().padStart(3, '0'),
+      green: pointsSummary.green.toString().padStart(3, '0'),
+      total: pointsSummary.total.toString().padStart(3, '0'),
+    }
+
+    // create one solved problems list with names and numbers of all the problems solved
+    var solvedProblems = []
+
+    for (var i = 0; i < questiondata.red.length; i++) {
+      if (questiondata.red[i].solved) {
+        solvedProblems.push({
+          level: 'red',
+          id: questiondata.red[i].id,
+          title: questiondata.red[i].Questiontitle,
+        })
+      }
+    }
+    for (var i = 0; i < questiondata.yellow.length; i++) {
+      if (questiondata.yellow[i].solved) {
+        solvedProblems.push({
+          level: 'yellow',
+          id: questiondata.yellow[i].id,
+          title: questiondata.yellow[i].Questiontitle,
+        })
+      }
+    }
+    for (var i = 0; i < questiondata.green.length; i++) {
+      if (questiondata.green[i].solved) {
+        solvedProblems.push({
+          level: 'green',
+          id: questiondata.green[i].id,
+          title: questiondata.green[i].Questiontitle,
+        })
+      }
+    }
+
+    // sort the problems by id
+    solvedProblems.sort((a, b) => a.id - b.id)
+
     return {
       userdata: context.app.$auth.$storage.getUniversal('jwt_decoded'),
       teamdata: teamdata.team,
       questiondata: questiondata,
+      paddedpointsSummary: paddedpointsSummary,
+      solvedProblems: solvedProblems,
     }
   },
   methods: {

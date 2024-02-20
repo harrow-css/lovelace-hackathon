@@ -66,6 +66,7 @@ export default {
       src: '~/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
       mode: 'client',
     },
+    { src: '~/plugins/vue-confetti.js', mode: 'client' }
   ],
 
   buildModules: ['@nuxtjs/google-fonts'],

@@ -229,17 +229,10 @@ app.get('/getQuestionInfo', async (req, res) => {
   })
 
   var questionsSolved = (JSON.parse(teamdetails.data.records[0].fields.QuestionsSolved))
-
-  if (questionsSolved.includes(req.query.questionID)) {
-    var solved = true
-  } else
-  {
-    var solved = false
-  }
-
-
   var questionId = req.query.questionID
 
+  var solved = questionsSolved.includes(parseInt(questionId))
+  
   var questionInfo = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
     params: {
       'q': "SELECT QuestionDescription, QuestionAuthor, Difficulty, QuestionTitle FROM Questions WHERE id = "+questionId
@@ -250,7 +243,6 @@ app.get('/getQuestionInfo', async (req, res) => {
     }
   })
 
-  
   
   res.send({
     ...questionInfo.data.records[0].fields,
