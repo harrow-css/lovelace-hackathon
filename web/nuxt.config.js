@@ -13,7 +13,9 @@ export default {
     ],
     script: [
       { type:"text/javascript", src:"https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.52.2/codemirror.min.js"},
-      { type:"text/javascript", src:"https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"}
+      { type:"text/javascript", src:"https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/python/python.min.js"},
+      { type:"text/javascript", src:"https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/clike/clike.min.js"},
+      { type:"text/javascript", src:"https://cdnjs.cloudflare.com/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.min.js"}
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

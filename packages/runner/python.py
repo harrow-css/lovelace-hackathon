@@ -1,5 +1,3 @@
 def main(args):
-    # name = args.get("name", "stranger")
-    # greeting = "Hello " + name + "!"
-    # print(greeting)
-    return {"body": "test"}
+    result = str(exec("print(5)"))
+    return {"body": result}

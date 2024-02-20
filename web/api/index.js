@@ -217,6 +217,61 @@ app.get('/getQuestionInfo', async (req, res) => {
   res.send(questionInfo.data.records[0].fields);
 });
 
+app.post('/submitSolution', async (req, res) => {
+
+  console.log(req.body)
+  // get authorization  header
+  const token = req.headers.authorization
+
+  // decode the token
+  const decoded = jwtDecode(token)
+
+  // get the email from the decoded token
+  const email = decoded.upn.toLowerCase()
+
+  // get the domain from the email
+  const domain = email.split('@').pop().split('.').shift()
+
+  // get part of email before @ (username)
+  const username = email.split('@')[0]
+
+  var questionId = req.body.questionID
+
+  if (req.body.language == "Python") {
+    var language = "python"
+    var version = "3.12.0"
+  }
+  else if (req.body.language == "c++") {
+    var language = "c++"
+    var version = "10.2.0"
+  } else if (req.body.language == "Node.js") {
+    var language = "javascript"
+    var version = "18.15.0"
+  } else {
+    res.sendStatus(500)
+  }
+
+  // send an axios request to the runner server with the solution
+  var response = await axios.post('http://admin.lovelacehackathon.com:2000/api/v2/execute', {
+      "language": language,
+      "version": version,
+      "files": [
+          {
+            "content": req.body.solution
+          }
+      ],
+      "stdin": "",
+      "compile_timeout": 10000,
+      "run_timeout": 3000,
+      "compile_memory_limit": -1,
+      "run_memory_limit": -1
+  })
+
+  // return the response from the runner server
+  res.send(response.data);
+  
+});
+
 // Needed for nuxt.js
 module.exports = {
   path: '/api',
