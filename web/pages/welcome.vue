@@ -11,14 +11,14 @@
               </h1>
               <h5>
                 You're representing
-                <i>{{ userdata.upn.split('@').pop().split('.')[0] }}</i>
+                <i>{{ userdata.email.split('@').pop().split('.')[0] }}</i>
               </h5>
             </div>
             <div class="col-lg-3">
               <a
                 class="btn btn-outline-danger float-end"
                 type="button"
-                @click="$auth.logout()"
+                @click="$auth.logout() ; $auth.$storage.setUniversal('jwt_decoded', null)"
                 >Logout</a
               >
             </div>

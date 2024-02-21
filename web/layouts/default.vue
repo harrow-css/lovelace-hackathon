@@ -9,9 +9,9 @@
         </a>
 
         
-        <div v-if="(userdata)" class="col-md-3 text-end align-items-center" >
+        <div v-if="(userdata) && this.$auth.loggedIn" class="col-md-3 text-end align-items-center" >
             <div class="row"><span class="fs-4">{{ userdata.given_name }} {{userdata.family_name }}</span></div>
-            <div class="row"><span class="fs-6">{{ userdata.upn.split('@').pop().split('.')[0] }}</span></div>
+            <div class="row"><span class="fs-6">{{ userdata.email.split('@').pop().split('.')[0] }}</span></div>
         </div>
 
     

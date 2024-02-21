@@ -8,6 +8,8 @@ require('dotenv').config()
 app.use(express.json())
 
 import { jwtDecode } from "jwt-decode";
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
 
 // this route is fired on auth to check if the user is allowed to access the application
 app.get('/checkLogin', (req, res) => {
@@ -42,16 +44,16 @@ app.get('/checkLogin', (req, res) => {
   })
 });
 
-
 app.get('/getTeamInfo', async (req, res) => {
-  // get authorization  header
-  const token = req.headers.authorization
 
   // decode the token
-  const decoded = jwtDecode(token)
+  const decoded = JSON.parse(req.cookies['auth.jwt_decoded']);
+
+  // // decode the token
+  // const decoded = jwtDecode(token);
 
   // get the email from the decoded token
-  const email = decoded.upn.toLowerCase()
+  const email = decoded.email.toLowerCase()
 
   // get the domain from the email
   const domain = email.split('@').pop().split('.').shift()
@@ -91,10 +93,13 @@ app.post('/setParticipationLevel', async (req, res) => {
   const token = req.headers.authorization
 
   // decode the token
-  const decoded = jwtDecode(token);
+  const decoded = JSON.parse(req.cookies['auth.jwt_decoded']);
+
+  // // decode the token
+  // const decoded = jwtDecode(token);
 
   // get the email from the decoded token
-  const email = decoded.upn.toLowerCase();
+  const email = decoded.email.toLowerCase();
 
   // get the domain from the email
   const domain = email.split('@').pop().split('.').shift();
@@ -147,11 +152,14 @@ app.get('/getQuestionsInfo', async (req, res) => {
    // get authorization  header
    const token = req.headers.authorization
 
-   // decode the token
-   const decoded = jwtDecode(token)
+  // decode the token
+  const decoded = JSON.parse(req.cookies['auth.jwt_decoded']);
+
+  // // decode the token
+  // const decoded = jwtDecode(token);
  
    // get the email from the decoded token
-   const email = decoded.upn.toLowerCase()
+   const email = decoded.email.toLowerCase()
  
    // get the domain from the email
    const domain = email.split('@').pop().split('.').shift()
@@ -206,10 +214,13 @@ app.get('/getQuestionInfo', async (req, res) => {
    const token = req.headers.authorization
 
    // decode the token
-   const decoded = jwtDecode(token)
+  const decoded = JSON.parse(req.cookies['auth.jwt_decoded']);
+
+  // // decode the token
+  // const decoded = jwtDecode(token);
  
    // get the email from the decoded token
-   const email = decoded.upn.toLowerCase()
+   const email = decoded.email.toLowerCase()
  
    // get the domain from the email
    const domain = email.split('@').pop().split('.').shift()
@@ -291,11 +302,14 @@ app.post('/autoMark', async (req, res) => {
   // get authorization  header
   const token = req.headers.authorization
 
-  // decode the token
-  const decoded = jwtDecode(token)
+ // decode the token
+ const decoded = JSON.parse(req.cookies['auth.jwt_decoded']);
+
+ // // decode the token
+ // const decoded = jwtDecode(token);
 
   // get the email from the decoded token
-  const email = decoded.upn.toLowerCase()
+  const email = decoded.email.toLowerCase()
 
   // get the domain from the email
   const domain = email.split('@').pop().split('.').shift()
@@ -417,6 +431,35 @@ app.post('/autoMark', async (req, res) => {
   }
   
 });
+
+// app.get("/googleAuth", async (req,res) => {
+//   // get the code from the request
+//   const code = req.query.code;
+
+//   const params = new URLSearchParams();
+//   params.append('code', code);
+//   params.append('client_id', '251205925099-jr8aq8ipcj2pohng814hptfhgnrp12vu.apps.googleusercontent.com');
+//   params.append('client_secret', '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');
+//   params.append('redirect_uri', 'http://localhost:65521');
+//   params.append('grant_type', 'authorization_code');
+
+//   console.log(params.toString());
+
+//   // make a request to the google token endpoint to get a jwt
+//   var response = await axios.post('https://oauth2.googleapis.com/token', params,
+//   {
+//     headers : {
+//       'content-type': 'application/x-www-form-urlencoded'
+//     }
+//   }).catch(err => {
+//     console.log(err)
+//   })
+
+//   console.log(response)
+
+//   res.sendStatus(200);
+// })
+
 
 // Needed for nuxt.js
 module.exports = {

@@ -7,7 +7,7 @@
 
     <a class="signinbutton" @click="$auth.loginWith('aad')"><img class="mb-5 mx-auto d-block" src="~/assets/microsoftsignindark.svg" alt="Sign in with Microsoft"></a>
 
-    
+    <GoogleSignInButton class="mb-5 mx-auto d-block" />
 
     <p class="my-2 text-center">Please sign in with your school account.</p>
     <p class="my-2 text-center">We won't take any information apart from your name, email, school and an identifier token.</p>

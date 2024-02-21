@@ -20,7 +20,7 @@
                 >
                 <button
                   class="btn btn-outline-danger"
-                  @click="$auth.logout()"
+                   @click="$auth.logout() ; $auth.$storage.setUniversal('jwt_decoded', null)"
                   type="button"
                 >
                   Logout

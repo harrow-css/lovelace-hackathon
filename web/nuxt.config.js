@@ -78,12 +78,6 @@ export default {
     },
   },
 
-  strapi: {
-    entities: ['questionbanks', 'Hackathoncontestants'],
-    url: 'https://admin.lovelacehackathon.com',
-    key: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NzA0NjQ1OTZjNzAzMDAxMTg2M2NlYiIsImlhdCI6MTcwMTg1Njk0NCwiZXhwIjoxNzA0NDQ4OTQ0fQ.v95hvOBJ65hv_XorXNHUJUBkNPoGhH0q4CtpRUoRXhY',
-  },
-
   serverMiddleware: [{ path: '/api', handler: '~/api/index.js' }],
 
   auth: {
@@ -92,6 +86,13 @@ export default {
     },
     rewriteRedirects: true,
     strategies: {
+      google: {
+        clientId: '251205925099-jr8aq8ipcj2pohng814hptfhgnrp12vu.apps.googleusercontent.com',
+        scope: ['profile', 'email'],
+        codeChallengeMethod: '',
+        responseType: 'token id_token',
+      },
+
       aad: {
         scheme: 'oauth2',
         endpoints: {

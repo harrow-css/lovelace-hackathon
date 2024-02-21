@@ -5,7 +5,7 @@ export default async function({ store, redirect , route}) {
       return redirect("/auth/logon");  
 
     } else {
-      const email = (store.$auth.$storage.getUniversal('jwt_decoded').upn)
+      const email = (store.$auth.$storage.getUniversal('jwt_decoded').email)
 
       // include axios
       const axios = require('axios')
