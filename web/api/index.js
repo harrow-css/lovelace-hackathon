@@ -254,6 +254,20 @@ app.get('/getQuestionInfo', async (req, res) => {
     }
   })
 
+  if (solved) {
+    var solutionInfo = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
+      params: {
+        'q': "SELECT Solution FROM Solutions WHERE Question = "+questionId
+      },
+      headers: {
+        'accept': 'application/json',
+        'Authorization': 'Bearer '+ process.env.GRIST_API,
+      }
+    })
+
+    questionInfo.data.records[0].fields.solution = solutionInfo.data.records[0].fields.Solution
+  }
+
   
   res.send({
     ...questionInfo.data.records[0].fields,
@@ -402,6 +416,39 @@ app.post('/autoMark', async (req, res) => {
             'id': teamdetails.data.records[0].fields.id,
             'fields': {
               'QuestionsSolved': questionsSolved,
+            }
+          }
+        ]
+      },
+      {
+        headers: {
+          'accept': 'application/json',
+          'Authorization': 'Bearer '+ process.env.GRIST_API,
+        }
+      }
+    )
+
+    console.log(JSON.stringify({
+      'records': [
+        {
+          'id': teamdetails.data.records[0].fields.id,
+          'fields': {
+            'question': questionId,
+            'solution' : req.body.solution,
+          }
+        }
+      ]
+    }))
+
+    const updateSolution = await axios.post(
+      'https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/tables/Solutions/records',
+      {
+        'records': [
+          {
+            'fields': {
+              'Question': questionId,
+              'Team': teamdetails.data.records[0].fields.id,
+              'Solution' : req.body.solution,
             }
           }
         ]

@@ -97,6 +97,11 @@
       <div class="col-md-12 mb-4">
         <div class="h-100 p-5 cardcolour1 rounded-3 shadow ">
           <h3>Your team solved the problem!</h3>
+          <p>
+            Your team solved the problem with the following solution:
+          </p>
+          <!-- display the python code in a code block -->
+          <pre><code>{{ questionData.solution }}</code></pre>
         </div>
       </div>
     </div>
@@ -285,6 +290,7 @@ export default {
           // if the response.correct is true, run the confetti
           if (response.correct) {
             this.confettiRun()
+            this.questionData.solution = this.myCodeMirror.getValue()
           } else {
             var a = {
               type: "submit",
