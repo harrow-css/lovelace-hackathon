@@ -359,8 +359,6 @@ app.post('/autoMark', async (req, res) => {
     res.sendStatus(500)
   }
 
-  console.log(req.body.solution + '\n' + questionInfo.data.records[0].fields.markingFunction)
-
   // send an axios request to the runner server with the solution
   var response = await axios.post('http://admin.lovelacehackathon.com:2000/api/v2/execute', {
       "language": language,
@@ -397,17 +395,6 @@ app.post('/autoMark', async (req, res) => {
     questionsSolved.push(parseInt(questionId))
     questionsSolved.unshift("L") // grist wants this for linking tables?
 
-    console.log(JSON.stringify({
-      'records': [
-        {
-          'id': teamdetails.data.records[0].fields.id,
-          'fields': {
-            'QuestionsSolved': questionsSolved,
-          }
-        }
-      ]
-    }))
-
     const updateTeamTable = await axios.patch(
       'https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/tables/Teams/records',
       {
@@ -428,18 +415,6 @@ app.post('/autoMark', async (req, res) => {
       }
     )
 
-    console.log(JSON.stringify({
-      'records': [
-        {
-          'id': teamdetails.data.records[0].fields.id,
-          'fields': {
-            'question': questionId,
-            'solution' : req.body.solution,
-          }
-        }
-      ]
-    }))
-
     const updateSolution = await axios.post(
       'https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/tables/Solutions/records',
       {
@@ -449,6 +424,7 @@ app.post('/autoMark', async (req, res) => {
               'Question': questionId,
               'Team': teamdetails.data.records[0].fields.id,
               'Solution' : req.body.solution,
+              'SolvedDate' : new Date().toISOString()
             }
           }
         ]

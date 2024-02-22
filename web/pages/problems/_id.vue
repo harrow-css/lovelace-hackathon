@@ -20,7 +20,10 @@
                 >
                 <button
                   class="btn btn-outline-danger"
-                   @click="$auth.logout() ; $auth.$storage.setUniversal('jwt_decoded', null)"
+                  @click="
+                    $auth.logout()
+                    $auth.$storage.setUniversal('jwt_decoded', null)
+                  "
                   type="button"
                 >
                   Logout
@@ -44,50 +47,95 @@
 
     <div class="row mb-4" v-show="!this.questionData.solved">
       <div class="col-md-12 mb-4">
-        <div class="h-100 p-5 cardcolour1 rounded-3 shadow ">
+        <div class="h-100 p-5 cardcolour1 rounded-3 shadow">
           <div class="row align-items-start">
             <div class="row">
               <div class="col">
                 <h3>Submit a solution</h3>
               </div>
               <div class="col">
-                <select class="form-select" aria-label="Default select example"  v-model="languagePicker">
-                  <option style="color: black;" selected value="Python" >Python 3.12.0</option>
-                  <option style="color: gray;" value="Node.js" disabled>Node.js 18.15.0</option>
-                  <option style="color: gray;" value="c++" disabled>c++ 10.2.0</option>
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  v-model="languagePicker"
+                >
+                  <option style="color: black" selected value="Python">
+                    Python 3.12.0
+                  </option>
+                  <option style="color: gray" value="Node.js" disabled>
+                    Node.js 18.15.0
+                  </option>
+                  <option style="color: gray" value="c++" disabled>
+                    c++ 10.2.0
+                  </option>
                 </select>
               </div>
             </div>
 
-            <div id="solutionBox" :disabled = "this.questionData.solved" style="color: black"></div>
+            <div
+              id="solutionBox"
+              :disabled="this.questionData.solved"
+              style="color: black"
+            ></div>
 
             <div class="d-grid gap-2 d-md-block py-3">
               <button
                 class="btn btn-primary"
                 type="button"
                 @click="runCode()"
-                :disabled = "this.questionData.solved"
+                :disabled="
+                  this.questionData.solved || spinners.run || !inTimeRange
+                "
               >
-                Run
+                <span v-if="spinners.run"
+                  ><div class="spinner-border" role="status">
+                    
+                  </div></span>
+                  <span v-if="!spinners.run"
+                  >Run</span
+                >
               </button>
               <button
                 class="btn btn-warning"
                 type="button"
                 @click="autoMark()"
-                :disabled = "this.questionData.solved"
+                :disabled="
+                  this.questionData.solved || spinners.submit || !inTimeRange
+                "
               >
-                Submit
+                <span v-if="spinners.submit"
+                  ><div class="spinner-border" role="status">
+                    
+                  </div></span>
+                  <span v-if="!spinners.submit"
+                  >Submit</span
+                >
               </button>
-
-
             </div>
 
-            <div style="color: white; height: 300px; background-color: #737373; overflow-y: scroll;" >
+            <div
+              style="
+                color: white;
+                height: 300px;
+                background-color: #737373;
+                overflow-y: scroll;
+              "
+            >
               <div v-if="codeResponses">
-                <span v-for="codeResponse in codeResponses" > <span v-html="codeResponse.run.output" v-if="codeResponse.type == 'run'"></span> <span v-html="codeResponse.run.output" v-if="codeResponse.type == 'submit'" class="text-warning"></span> <br> </span>
+                <span v-for="codeResponse in codeResponses">
+                  <span
+                    v-html="codeResponse.run.output"
+                    v-if="codeResponse.type == 'run'"
+                  ></span>
+                  <span
+                    v-html="codeResponse.run.output"
+                    v-if="codeResponse.type == 'submit'"
+                    class="text-warning"
+                  ></span>
+                  <br />
+                </span>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -95,18 +143,14 @@
 
     <div class="row mb-4" v-show="this.questionData.solved">
       <div class="col-md-12 mb-4">
-        <div class="h-100 p-5 cardcolour1 rounded-3 shadow ">
+        <div class="h-100 p-5 cardcolour1 rounded-3 shadow">
           <h3>Your team solved the problem!</h3>
-          <p>
-            Your team solved the problem with the following solution:
-          </p>
+          <p>Your team solved the problem with the following solution:</p>
           <!-- display the python code in a code block -->
           <pre><code>{{ questionData.solution }}</code></pre>
         </div>
       </div>
     </div>
-
-
   </div>
 </template>
 
@@ -202,64 +246,71 @@ export default {
       tabSize: 2,
       value: 'def solution():\n    return "Hello World"',
       theme: 'bespin',
-      mode: "python"
+      mode: 'python',
     })
   },
   data() {
     return {
       spinners: {
-        'run':false,
-        'submit':false
+        run: false,
+        submit: false,
       },
       myCodeMirror: null,
-      languagePicker: "Python",
-      codeResponses : [], 
-      now: new Date()
-      
+      languagePicker: 'Python',
+      codeResponses: [],
+      now: new Date(),
     }
   },
 
   computed: {
-    counddownTimeUntilEnd : function() {
-      const targetDate = new Date('2024-02-24T12:00:00Z');
-      const currentDate = this.now;
-      const timeUntilTarget = targetDate.getTime() - currentDate.getTime();
+    counddownTimeUntilEnd: function () {
+      const targetDate = new Date('2024-02-24T12:00:00Z')
+      const currentDate = this.now
+      const timeUntilTarget = targetDate.getTime() - currentDate.getTime()
 
-      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000);
+      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24))
+      const hours = Math.floor(
+        (timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      )
+      const minutes = Math.floor(
+        (timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60)
+      )
+      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000)
 
-      return (`Time until end: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+      return `Time until end: ${hours} hours, ${minutes} minutes, ${seconds} seconds`
     },
-    counddownTimeFromStart : function() {
-      const targetDate = new Date('2024-02-23T12:00:00Z');
-      const currentDate = this.now;
-      const timeUntilTarget = currentDate.getTime() - targetDate.getTime();
+    counddownTimeFromStart: function () {
+      const targetDate = new Date('2024-02-23T12:00:00Z')
+      const currentDate = this.now
+      const timeUntilTarget = currentDate.getTime() - targetDate.getTime()
 
-      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000);
+      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24))
+      const hours = Math.floor(
+        (timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      )
+      const minutes = Math.floor(
+        (timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60)
+      )
+      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000)
 
-      return (`Time from start: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+      return `Time from start: ${hours} hours, ${minutes} minutes, ${seconds} seconds`
     },
-    inTimeRange : function() {
+    inTimeRange: function () {
       // if after new Date('2024-02-24T12:00:00Z');, set to false, otherwise true
-      return this.now < new Date('2024-02-24T12:00:00Z');
-      
-    }
+      return this.now < new Date('2024-02-24T12:00:00Z')
+    },
   },
 
   methods: {
     confettiRun() {
-      this.$confetti.start();
+      this.$confetti.start()
       // stop the confetti after 5 seconds
       setTimeout(() => {
-        this.$confetti.stop();
-      }, 5000);
+        this.$confetti.stop()
+      }, 5000)
     },
     runCode() {
+      this.spinners.run = true
       this.$axios
         .$post('/api/runCode', {
           questionID: this.$route.params.id,
@@ -267,8 +318,9 @@ export default {
           language: this.languagePicker,
         })
         .then((response) => {
+          this.spinners.run = false
           // add the response to the codeResponses array
-          response.type = "run"
+          response.type = 'run'
           this.codeResponses.push(response)
         })
         .catch((error) => {
@@ -277,6 +329,7 @@ export default {
     },
 
     autoMark() {
+      this.spinners.submit = true
       this.$axios
         .$post('/api/autoMark', {
           questionID: this.$route.params.id,
@@ -284,6 +337,7 @@ export default {
           language: this.languagePicker,
         })
         .then((response) => {
+          this.spinners.submit = false
           // add the response to the codeResponses array
           this.questionData.solved = response.correct
 
@@ -293,14 +347,16 @@ export default {
             this.questionData.solution = this.myCodeMirror.getValue()
           } else {
             var a = {
-              type: "submit",
+              type: 'submit',
               run: {
-                output: "Your solution was incorrect. Please try again. It passed " + response.results + " test cases."
-              }
+                output:
+                  'Your solution was incorrect. Please try again. It passed ' +
+                  response.results +
+                  ' test cases.',
+              },
             }
             this.codeResponses.push(a)
           }
-          
         })
         .catch((error) => {
           console.log(error)
@@ -323,16 +379,14 @@ export default {
   watch: {
     // whenever question changes, this function will run
     languagePicker: function (newLanguage, oldLanguage) {
-      if (newLanguage === "Python") {
-        this.myCodeMirror.setOption("mode", "python")
-      } else if (newLanguage === "Node.js") {
-        this.myCodeMirror.setOption("mode", "javascript")
-      } else if (newLanguage === "c++") {
-        this.myCodeMirror.setOption("mode", "clike")
+      if (newLanguage === 'Python') {
+        this.myCodeMirror.setOption('mode', 'python')
+      } else if (newLanguage === 'Node.js') {
+        this.myCodeMirror.setOption('mode', 'javascript')
+      } else if (newLanguage === 'c++') {
+        this.myCodeMirror.setOption('mode', 'clike')
       }
-    }
-  }
-
-  
+    },
+  },
 }
 </script>
