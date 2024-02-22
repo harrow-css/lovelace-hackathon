@@ -88,12 +88,9 @@
                 "
               >
                 <span v-if="spinners.run"
-                  ><div class="spinner-border" role="status">
-                    
-                  </div></span>
-                  <span v-if="!spinners.run"
-                  >Run</span
-                >
+                  ><div class="spinner-border" role="status"></div
+                ></span>
+                <span v-if="!spinners.run">Run</span>
               </button>
               <button
                 class="btn btn-warning"
@@ -104,12 +101,9 @@
                 "
               >
                 <span v-if="spinners.submit"
-                  ><div class="spinner-border" role="status">
-                    
-                  </div></span>
-                  <span v-if="!spinners.submit"
-                  >Submit</span
-                >
+                  ><div class="spinner-border" role="status"></div
+                ></span>
+                <span v-if="!spinners.submit">Submit</span>
               </button>
             </div>
 
