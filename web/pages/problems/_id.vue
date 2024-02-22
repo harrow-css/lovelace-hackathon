@@ -84,8 +84,7 @@
 
             <div style="color: white; height: 300px; background-color: #737373; overflow-y: scroll;" >
               <div v-if="codeResponses">
-                <span v-for="codeResponse in codeResponses" > <span v-html="codeResponse.run.output"></span><br></span> 
-                   
+                <span v-for="codeResponse in codeResponses" > <span v-html="codeResponse.run.output" v-if="codeResponse.type == 'run'"></span> <span v-html="codeResponse.run.output" v-if="codeResponse.type == 'submit'" class="text-warning"></span> <br> </span>
               </div>
             </div>
 
@@ -209,7 +208,41 @@ export default {
       },
       myCodeMirror: null,
       languagePicker: "Python",
-      codeResponses : []
+      codeResponses : [], 
+      now: new Date()
+      
+    }
+  },
+
+  computed: {
+    counddownTimeUntilEnd : function() {
+      const targetDate = new Date('2024-02-24T12:00:00Z');
+      const currentDate = this.now;
+      const timeUntilTarget = targetDate.getTime() - currentDate.getTime();
+
+      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000);
+
+      return (`Time until end: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+    },
+    counddownTimeFromStart : function() {
+      const targetDate = new Date('2024-02-23T12:00:00Z');
+      const currentDate = this.now;
+      const timeUntilTarget = currentDate.getTime() - targetDate.getTime();
+
+      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000);
+
+      return (`Time from start: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+    },
+    inTimeRange : function() {
+      // if after new Date('2024-02-24T12:00:00Z');, set to false, otherwise true
+      return this.now < new Date('2024-02-24T12:00:00Z');
+      
     }
   },
 
@@ -230,6 +263,7 @@ export default {
         })
         .then((response) => {
           // add the response to the codeResponses array
+          response.type = "run"
           this.codeResponses.push(response)
         })
         .catch((error) => {
@@ -251,6 +285,14 @@ export default {
           // if the response.correct is true, run the confetti
           if (response.correct) {
             this.confettiRun()
+          } else {
+            var a = {
+              type: "submit",
+              run: {
+                output: "Your solution was incorrect. Please try again. It passed " + response.results + " test cases."
+              }
+            }
+            this.codeResponses.push(a)
           }
           
         })

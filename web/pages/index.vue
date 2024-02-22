@@ -19,7 +19,9 @@
   <div class="mt-5 p-5 text-center rounded-3 cardcolour1">
     <h1>Join the Hackathon</h1>
     <p class="col-lg-8 mx-auto fs-5">
-      Lovelace hackathon 2024 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed dignissim ligula. Nulla eget sollicitudin purus. Praesent lacinia justo lectus, in sagittis metus molestie ac. Nulla maximus pulvinar erat, eget imperdiet dui. 
+      The Lovelace Hackathon is a 24 hour event where you can compete in a series of coding challenges to win prizes and gain experience.
+      <br>
+      Teams of up to 4 can complete as many problems as possible, submitting answers here.
     </p>
     <div class="d-inline-flex gap-2">
       <Nuxt-Link to="welcome" class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">

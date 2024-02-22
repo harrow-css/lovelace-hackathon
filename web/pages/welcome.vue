@@ -141,6 +141,9 @@
             <h1>Questions</h1>
 
             <OldTerminal>
+              <center>{{counddownTimeUntilEnd }}</center>
+              <center>{{counddownTimeFromStart }}</center>
+              <br>
               <div class="row">
                 <div class="col-4">
                   <pre style="display: flex; justify-content: center">
@@ -277,6 +280,10 @@
 export default {
   middleware: 'isAuthenticated',
 
+  created () {
+    setInterval(() => this.now = new Date, 1000 );
+  },
+
   async asyncData(context) {
     var teamdata = await context.app.$axios.$get('/api/getTeamInfo')
     var questiondata = await context.app.$axios.$get('/api/getQuestionsInfo')
@@ -367,8 +374,39 @@ export default {
     },
   },
   data() {
-    return { userdata: null, editingParticipationLevel: false }
+    return { userdata: null, editingParticipationLevel: false, now: new Date() }
   },
+  computed: {
+    counddownTimeUntilEnd : function() {
+      const targetDate = new Date('2024-02-24T12:00:00Z');
+      const currentDate = this.now;
+      const timeUntilTarget = targetDate.getTime() - currentDate.getTime();
+
+      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000);
+
+      return (`Time until end: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+    },
+    counddownTimeFromStart : function() {
+      const targetDate = new Date('2024-02-23T12:00:00Z');
+      const currentDate = this.now;
+      const timeUntilTarget = currentDate.getTime() - targetDate.getTime();
+
+      const days = Math.floor(timeUntilTarget / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeUntilTarget % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeUntilTarget % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeUntilTarget % (1000 * 60)) / 1000);
+
+      return (`Time from start: ${hours} hours, ${minutes} minutes, ${seconds} seconds`);
+    },
+    inTimeRange : function() {
+      // if after new Date('2024-02-24T12:00:00Z');, set to false, otherwise true
+      return this.now < new Date('2024-02-24T12:00:00Z');
+      
+    }
+  }
 }
 </script>
 

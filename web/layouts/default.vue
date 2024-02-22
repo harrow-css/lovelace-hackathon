@@ -13,13 +13,20 @@
             <div class="row"><span class="fs-4">{{ userdata.given_name }} {{userdata.family_name }}</span></div>
             <div class="row"><span class="fs-6">{{ userdata.email.split('@').pop().split('.')[0] }}</span></div>
         </div>
+    
+        </header>
 
+        <div v-if="!isMobile()"> 
+            <Nuxt /> 
+        </div>
+
+        <div v-if="isMobile()"> 
+            This site is not designed for mobile use. Please use a desktop or laptop.
+        </div>
+
+    </div>
     
 
-        </header>
-    </div>
-  
-    <Nuxt />
 
 </div>
 </template>
@@ -97,6 +104,15 @@ export default {
   },
   mounted() {
     this.userdata = this.$nuxt.context.app.$auth.$storage.getUniversal('jwt_decoded');
+  },
+  methods : {
+    isMobile() {
+        if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            return true
+        } else {
+            return false
+        }
+        }
   }
 }
 </script>

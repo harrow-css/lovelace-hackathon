@@ -323,15 +323,13 @@ app.post('/autoMark', async (req, res) => {
   // get the question testacases from the question ID
   var questionInfo = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
     params: {
-      'q': "SELECT TestCases FROM Questions WHERE id = "+questionId
+      'q': "SELECT markingFunction FROM Questions WHERE id = "+questionId
     },
     headers: {
       'accept': 'application/json',
       'Authorization': 'Bearer '+ process.env.GRIST_API,
     }
   })
-
-  var testcases = (JSON.parse(questionInfo.data.records[0].fields.TestCases))
 
   if (req.body.language == "Python") {
     var language = "python"
@@ -347,35 +345,29 @@ app.post('/autoMark', async (req, res) => {
     res.sendStatus(500)
   }
 
-  // run each testcase
-  var results = []
+  console.log(req.body.solution + '\n' + questionInfo.data.records[0].fields.markingFunction)
 
-  for (var i = 0; i < testcases.length; i++) {
-      // send an axios request to the runner server with the solution
-      var response = await axios.post('http://admin.lovelacehackathon.com:2000/api/v2/execute', {
-          "language": language,
-          "version": version,
-          "files": [
-              {
-                "content": req.body.solution + "\nprint( solution(" + testcases[i][0] + ") )"
-              }
-          ],
-          "compile_timeout": 10000,
-          "run_timeout": 3000,
-          "compile_memory_limit": -1,
-          "run_memory_limit": -1
-      })
+  // send an axios request to the runner server with the solution
+  var response = await axios.post('http://admin.lovelacehackathon.com:2000/api/v2/execute', {
+      "language": language,
+      "version": version,
+      "files": [
+          {
+            "content": req.body.solution + '\n' + questionInfo.data.records[0].fields.markingFunction
+          }
+      ],
+      "compile_timeout": 10000,
+      "run_timeout": 3000,
+      "compile_memory_limit": -1,
+      "run_memory_limit": -1
+  })
 
-      // push the result to the results array
-      results.push(response.data.run.stdout.replace(/\n/g, ''))
-  }
+  if (response.data.run.stdout) {
+    var results = response.data.run.stdout.split('\n').slice(-2, -1)[0]
 
-  // take the expected outputs and make them all strings
-  var expectedOutputs = testcases.map(testcase => testcase[1].toString())
-  
-  if (JSON.stringify(expectedOutputs) === JSON.stringify(results)) {
-    
-    // get the teams' questions solved
+    if (results.split("/")[0] == results.split("/")[1]) {
+
+    //get the teams' questions solved
     var teamdetails = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
       params: {
         'q': "SELECT QuestionsSolved, T.id FROM users U LEFT JOIN teams T ON (U.gristHelper_Display2 = T.TeamName) WHERE U.User = '"+username+"'"
@@ -422,43 +414,14 @@ app.post('/autoMark', async (req, res) => {
       }
     )
 
-
-    res.send({correct: true})
-
+      res.send({correct: true})
+    } else {
+      res.send({correct: false, results: results})
+    }
   }
-  else {
-    res.send({correct: false})
-  }
+
   
 });
-
-// app.get("/googleAuth", async (req,res) => {
-//   // get the code from the request
-//   const code = req.query.code;
-
-//   const params = new URLSearchParams();
-//   params.append('code', code);
-//   params.append('client_id', '251205925099-jr8aq8ipcj2pohng814hptfhgnrp12vu.apps.googleusercontent.com');
-//   params.append('client_secret', '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');
-//   params.append('redirect_uri', 'http://localhost:65521');
-//   params.append('grant_type', 'authorization_code');
-
-//   console.log(params.toString());
-
-//   // make a request to the google token endpoint to get a jwt
-//   var response = await axios.post('https://oauth2.googleapis.com/token', params,
-//   {
-//     headers : {
-//       'content-type': 'application/x-www-form-urlencoded'
-//     }
-//   }).catch(err => {
-//     console.log(err)
-//   })
-
-//   console.log(response)
-
-//   res.sendStatus(200);
-// })
 
 
 // Needed for nuxt.js
