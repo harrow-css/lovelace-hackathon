@@ -132,5 +132,6 @@ export default {
 
   markdownit: {
     runtime: true, // Support `$md()`
+    html: true // Enable HTML tags in source  
   },
 }
