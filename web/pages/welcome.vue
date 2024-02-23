@@ -372,10 +372,13 @@
                   Andrew P
                 </p>
                 <p>
-                  Vinnson L
+                  Vinsson L
                 </p>
                  <p>
                   Richard Z
+                </p>
+                <p>
+                  Hayden Leung
                 </p>
               </div>
               <div class="col">
