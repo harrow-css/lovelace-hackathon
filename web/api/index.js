@@ -235,7 +235,7 @@ app.get('/getQuestionInfo', async (req, res) => {
   // check if the user's team has already solved the question
   var teamdetails = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
     params: {
-      'q': "SELECT QuestionsSolved FROM users U LEFT JOIN teams T ON (U.gristHelper_Display2 = T.TeamName) WHERE U.User = '"+username+"'"
+      'q': "SELECT * FROM users U LEFT JOIN teams T ON (U.gristHelper_Display2 = T.TeamName) WHERE U.User = '"+username+"'"
     },
     headers: {
       'accept': 'application/json',
@@ -266,7 +266,7 @@ app.get('/getQuestionInfo', async (req, res) => {
   if (solved) {
     var solutionInfo = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
       params: {
-        'q': "SELECT Solution FROM Solutions WHERE Question = "+questionId
+        'q': "SELECT Solution FROM Solutions WHERE Question = "+questionId + " AND Team = "+ teamdetails.data.records[0].fields['id:1']
       },
       headers: {
         'accept': 'application/json',
@@ -277,7 +277,6 @@ app.get('/getQuestionInfo', async (req, res) => {
     questionInfo.data.records[0].fields.solution = solutionInfo.data.records[0].fields.Solution
   }
 
-  
   res.send({
     ...questionInfo.data.records[0].fields,
     solved: solved

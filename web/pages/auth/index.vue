@@ -40,10 +40,6 @@ export default {
 
 
     }
-    
-    console.log(token)
-
-     
 
     const path = this.$auth.$storage.getUniversal('redirect') || '/';
     this.$auth.$storage.setUniversal('redirect', null);

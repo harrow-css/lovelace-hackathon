@@ -235,10 +235,21 @@ export default {
   middleware: 'isAuthenticated',
 
   mounted() {
+
+    // get saved question from nuxt store 
+    var savedQuestion = this.$store.state.programs[this.$route.params.id]
+
+    if (savedQuestion) {
+      console.log('using saved question')
+      var value = savedQuestion
+    } else {
+      var value = 'def solution():\n    return "Hello World"'
+    }
+
     this.myCodeMirror = CodeMirror(document.querySelector('#solutionBox'), {
       lineNumbers: true,
       tabSize: 2,
-      value: 'def solution():\n    return "Hello World"',
+      value: value,
       theme: 'bespin',
       mode: 'python',
     })
@@ -304,6 +315,7 @@ export default {
       }, 5000)
     },
     runCode() {
+      this.$store.commit('updateProgram', [this.myCodeMirror.getValue(), this.$route.params.id])
       this.spinners.run = true
       this.$axios
         .$post('/api/runCode', {
@@ -323,6 +335,8 @@ export default {
     },
 
     autoMark() {
+      this.$store.commit('updateProgram', [this.myCodeMirror.getValue(), this.$route.params.id])
+      
       this.spinners.submit = true
       this.$axios
         .$post('/api/autoMark', {
@@ -366,7 +380,7 @@ export default {
 
     return {
       userdata: context.app.$auth.$storage.getUniversal('jwt_decoded'),
-      questionData: questionData,
+      questionData: questionData
     }
   },
 
