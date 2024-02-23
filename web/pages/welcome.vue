@@ -320,6 +320,15 @@
             </div>
 
             <div class="py-3">
+              <h3>Team Changes</h3>
+              <p>If you've joined in a team with less than 4 people and would like to add an additional person, please get in touch via email <a
+                  href="mailto:19kainthd@harrowschool.org.uk,19songv@harrowschool.org.uk?subject=Team Enquiry"
+                  class="text-white"
+                  >here</a
+                ></p>
+            </div>
+
+            <div class="py-3">
               <h3>I'm having trouble with the automarker</h3>
               <p>
                 If you're struggling with the automarker, please contact us via
