@@ -369,6 +369,9 @@
                   Alex Y
                 </p>
                 <p>
+                  Hayden L
+                </p>
+                <p>
                   Andrew P
                 </p>
                 <p>
@@ -377,9 +380,7 @@
                  <p>
                   Richard Z
                 </p>
-                <p>
-                  Hayden Leung
-                </p>
+                
               </div>
               <div class="col">
               <h5><u>Web Development</u></h5>
