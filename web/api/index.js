@@ -180,6 +180,10 @@ app.get('/getQuestionsInfo', async (req, res) => {
 
   var questionsSolved = (JSON.parse(teamdetails.data.records[0].fields.QuestionsSolved))
 
+  if (questionsSolved == null) {
+    questionsSolved = []
+  }
+
   var questionInfo = await axios.get('https://admin.lovelacehackathon.com/api/docs/aaYvahhciDrtFrFytKRZwy/sql', {
     params: {
       'q': "SELECT Questiontitle, id, Difficulty FROM Questions"
@@ -240,6 +244,11 @@ app.get('/getQuestionInfo', async (req, res) => {
   })
 
   var questionsSolved = (JSON.parse(teamdetails.data.records[0].fields.QuestionsSolved))
+
+  if (questionsSolved == null) {
+    questionsSolved = []
+  }
+
   var questionId = req.query.questionID
 
   var solved = questionsSolved.includes(parseInt(questionId))
@@ -392,6 +401,10 @@ app.post('/autoMark', async (req, res) => {
 
     var questionsSolved = (JSON.parse(teamdetails.data.records[0].fields.QuestionsSolved))
 
+    if (questionsSolved == null) {
+      questionsSolved = []
+    }
+    
     questionsSolved.push(parseInt(questionId))
     questionsSolved.unshift("L") // grist wants this for linking tables?
 
