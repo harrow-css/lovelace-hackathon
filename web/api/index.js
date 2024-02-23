@@ -340,7 +340,6 @@ app.post('/autoMark', async (req, res) => {
   // get part of email before @ (username)
   const username = email.split('@')[0]
 
-
   var questionId = req.body.questionID
 
   // get the question testacases from the question ID
@@ -382,6 +381,12 @@ app.post('/autoMark', async (req, res) => {
       "compile_memory_limit": -1,
       "run_memory_limit": -1
   })
+
+  console.log(response.data)
+
+  if (response.data.run.stderr) {
+    res.send({correct: false, results: "there's a syntax error in your code, please check it and try again"})
+  }
 
   if (response.data.run.stdout) {
     var results = response.data.run.stdout.split('\n').slice(-2, -1)[0]

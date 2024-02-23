@@ -307,7 +307,7 @@
                 Python is the only language we are currently supporting with the
                 automarker. Solutions in C++ and NodeJS are accepted over email
                 <a
-                  href="mailto:19kainthd@harrowschool.org.uk,19songv@harrowschool.org.uk?subject=Alternative Language Solution Request"
+                  href="mailto:19kainthd@harrowschool.org.uk,19songy@harrowschool.org.uk?subject=Alternative Language Solution Request"
                   class="text-white"
                   >here</a
                 >, but will not be automatically marked.
@@ -322,7 +322,7 @@
             <div class="py-3">
               <h3>Team Changes</h3>
               <p>If you've joined in a team with less than 4 people and would like to add an additional person, please get in touch via email <a
-                  href="mailto:19kainthd@harrowschool.org.uk,19songv@harrowschool.org.uk?subject=Team Enquiry"
+                  href="mailto:19kainthd@harrowschool.org.uk,19songy@harrowschool.org.uk?subject=Team Enquiry"
                   class="text-white"
                   >here</a
                 ></p>
@@ -334,7 +334,7 @@
                 If you're struggling with the automarker, please contact us via
                 email
                 <a
-                  href="mailto:19kainthd@harrowschool.org.uk,19songv@harrowschool.org.uk?subject=Automark Problem"
+                  href="mailto:19kainthd@harrowschool.org.uk,19songy@harrowschool.org.uk?subject=Automark Problem"
                   class="text-white"
                   >here</a
                 >. Include the number of the question you're struggling with and
@@ -345,6 +345,86 @@
         </div>
       </div>
     </div>
+
+
+    <div class="row align-items-md-stretch mb-4">
+      <div class="col-md-12 mb-4">
+        <div class="h-100 p-5 cardcolour1 rounded-3 shadow d-flex flex-column">
+          <div class="row align-items-start">
+            <h1>Acknowledgements</h1>
+
+            <h5><u>Organisers</u></h5>
+            <p>Vincent S and Dylan K</p>
+
+            <div class="row">
+              <div class="col">
+                <h5><u>Question Writing Team</u></h5>
+                <p>
+                  Vincent S
+                </p>
+                <p>
+                  Alex H
+                </p>
+                <p>
+                  Alex Y
+                </p>
+                <p>
+                  Andrew P
+                </p>
+                <p>
+                  Vinnson L
+                </p>
+                 <p>
+                  Richard Z
+                </p>
+              </div>
+              <div class="col">
+              <h5><u>Web Development</u></h5>
+              <p>
+                Dylan K
+              </p>
+
+              <h5><u>Many thanks to</u></h5>
+              <p>
+                Dr C M Crowe
+              </p>
+
+              <h5><u>Hosted using</u></h5>
+              <p>
+                <a href="https://digitalocean.com/" class="text-white">DigitalOcean</a> - Thank you for free credits!
+              </p>
+               <p>
+                Powered by  <a href="https://www.getgrist.com/" class="text-white">Grist</a>
+              </p>
+
+              </div>
+            </div>
+
+
+
+
+      
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row align-items-md-stretch mb-4">
+      <div class="col-md-12 mb-4">
+        <div class="h-100 p-5 cardcolour1 rounded-3 shadow d-flex flex-column">
+          <div class="row">
+
+          <center>
+            <img style="height:100px; width:auto;" src="/templogoceladon.png"> 
+            </center>
+            <p class="text-center">Harrow School Computer Science Society</p>
+      
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
