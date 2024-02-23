@@ -97,9 +97,9 @@ export default {
         scheme: 'oauth2',
         endpoints: {
           authorization:
-            'https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize',
+            'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
           token:
-            'https://login.microsoftonline.com/organizations/oauth2/v2.0/token',
+            'https://login.microsoftonline.com/common/oauth2/v2.0/token',
           logout: false,
         },
         token: {
