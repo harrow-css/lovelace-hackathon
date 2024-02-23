@@ -381,10 +381,10 @@ app.post('/autoMark', async (req, res) => {
       "run_memory_limit": -1
   })
 
-  console.log(response.data)
+
 
   if (response.data.run.stderr) {
-    res.send({correct: false, results: "there's a syntax error in your code, please check it and try again"})
+    res.send({correct: false, results: response.data.run.stderr, syntaxError: true})
   }
 
   if (response.data.run.stdout) {

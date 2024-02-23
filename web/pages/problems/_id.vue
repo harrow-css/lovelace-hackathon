@@ -348,22 +348,34 @@ export default {
           this.spinners.submit = false
           // add the response to the codeResponses array
           this.questionData.solved = response.correct
+          this.questionData.syntaxError = response.syntaxError
 
           // if the response.correct is true, run the confetti
           if (response.correct) {
             this.confettiRun()
             this.questionData.solution = this.myCodeMirror.getValue()
           } else {
-            var a = {
-              type: 'submit',
-              run: {
-                output:
-                  'Your solution was incorrect. Please try again. It passed ' +
-                  response.results +
-                  ' test cases.',
-              },
+            if (response.syntaxError) {
+              var a = {
+                type: 'submit',
+                run: {
+                  output: 'Your solution had a syntax error. Please try again.',
+                },
+              }
+              this.codeResponses.push(a)
+            } else {
+              var a = {
+                type: 'submit',
+                run: {
+                  output:
+                    'Your solution was incorrect. Please try again. It passed ' +
+                    response.results +
+                    ' test cases.',
+                },
+              }
+              this.codeResponses.push(a)
             }
-            this.codeResponses.push(a)
+            
           }
         })
         .catch((error) => {
