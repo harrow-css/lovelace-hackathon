@@ -13,7 +13,7 @@
           <h2>FINISH</h2>
           <h1 class="fs-1" style="color:#60AAF4">00:00GMT</h1>
           <h3 style="color:#60AAF4">Sunday 25th February 2024</h3>
-          <p>The deadline was extended by 12 hours from it's original finish date of Saturday 24th February 2024 at 12:00GMT</p>
+          <p>The deadline was extended by 12 hours from its original finish date of Saturday 24th February 2024 at 12:00GMT</p>
         </div>
       </div>
   </div>
