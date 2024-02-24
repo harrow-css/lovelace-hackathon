@@ -269,7 +269,7 @@ export default {
 
   computed: {
     counddownTimeUntilEnd: function () {
-      const targetDate = new Date('2024-02-24T12:00:00Z')
+      const targetDate = new Date('2024-02-25T00:00:00Z')
       const currentDate = this.now
       const timeUntilTarget = targetDate.getTime() - currentDate.getTime()
 
@@ -302,7 +302,7 @@ export default {
     },
     inTimeRange: function () {
       // if after new Date('2024-02-24T12:00:00Z');, set to false, otherwise true
-      return this.now < new Date('2024-02-24T12:00:00Z')
+      return this.now < new Date('2024-02-25T00:00:00Z')
     },
   },
 
