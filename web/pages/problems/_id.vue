@@ -355,6 +355,16 @@ export default {
             this.confettiRun()
             this.questionData.solution = this.myCodeMirror.getValue()
           } else {
+            if (response.timedOut) {
+              var a = {
+                type: 'submit',
+                run: {
+                  output: 'Your solution timed out. Please try again.',
+                },
+              }
+              this.codeResponses.push(a)
+            }
+
             if (response.syntaxError) {
               var a = {
                 type: 'submit',
@@ -363,17 +373,16 @@ export default {
                 },
               }
               this.codeResponses.push(a)
-            } else {
-              var a = {
-                type: 'submit',
-                run: {
-                  output:
-                    'Your solution was incorrect. Please try again. It passed ' +
-                    response.results +
-                    ' test cases.',
-                },
-              }
-              this.codeResponses.push(a)
+            }
+
+            var a = {
+              type: 'submit',
+              run: {
+                output:
+                  'Your solution was incorrect. Please try again. It passed ' +
+                  response.results +
+                  ' test cases.',
+              },
             }
             
           }

@@ -386,7 +386,7 @@ app.post('/autoMark', async (req, res) => {
   console.log(response.data.run)
 
   if (response.data.run.signal == 'SIGKILL') {
-    res.send({correct: false, results: "Your code took too long to run. Please optimize your solution."})
+    res.send({correct: false, results: "Your code took too long to run. Please optimize your solution.", timedOut: true})
   }
 
   if (response.data.run.stderr) {
