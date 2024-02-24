@@ -381,6 +381,8 @@ app.post('/autoMark', async (req, res) => {
       "run_memory_limit": -1
   })
 
+  console.log(questionId,req.body.solution ,response.data.run, username)
+
 
 
   if (response.data.run.stderr) {
