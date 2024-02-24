@@ -375,14 +375,17 @@ export default {
               this.codeResponses.push(a)
             }
 
-            var a = {
-              type: 'submit',
-              run: {
-                output:
-                  'Your solution was incorrect. Please try again. It passed ' +
-                  response.results +
-                  ' test cases.',
-              },
+            if (response.results) {
+              var a = {
+                type: 'submit',
+                run: {
+                  output:
+                    'Your solution was incorrect. Please try again. It passed ' +
+                    response.results +
+                    ' test cases.',
+                },
+              }
+              this.codeResponses.push(a)
             }
             
           }
