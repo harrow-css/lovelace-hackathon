@@ -366,6 +366,8 @@ app.post('/autoMark', async (req, res) => {
     res.sendStatus(500)
   }
 
+  console.log(req.body.solution)
+
   // send an axios request to the runner server with the solution
   var response = await axios.post('http://admin.lovelacehackathon.com:2000/api/v2/execute', {
       "language": language,
@@ -381,9 +383,11 @@ app.post('/autoMark', async (req, res) => {
       "run_memory_limit": -1
   })
 
-  console.log(questionId,req.body.solution ,response.data.run, username)
+  console.log(response.data.run)
 
-
+  if (response.data.run.signal == 'SIGKILL') {
+    res.send({correct: false, results: "Your code took too long to run. Please optimize your solution."})
+  }
 
   if (response.data.run.stderr) {
     res.send({correct: false, results: response.data.run.stderr, syntaxError: true})
