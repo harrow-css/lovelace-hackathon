@@ -1,3 +1,4 @@
+# Lovelace Hackathon Website
 In February 2024, we organised and ran an online international Hackathon for 150 students aged 15-18 across 10+ schools.
 
 A team of 7 of us worked to create the questions, and develop/run this website to manage the Hackathon.
